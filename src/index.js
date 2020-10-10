@@ -2,12 +2,17 @@ console.log('zoiew');
 console.log('hello,world1133');
 
 import Logo from '@/assets/logo.png';
-import './css/common.css';
+import '@/css/reset.css';
+import indexStyle from '@/css/index.css';
 
-var img = document.createElement('img');
-img.src = Logo;
-img.classList.add('pic');
-console.log(img);
+console.log(indexStyle);
+window.addEventListener('DOMContentLoaded', function() {
+	// var img = document.createElement('img');
+	const img = new Image();
+	img.src = Logo;
+	img.classList.add(indexStyle.pic);
 
-// 挂在dom
-document.body.appendChild(img);
+	console.log(img);
+	// 挂在dom
+	document.body.appendChild(img);
+});

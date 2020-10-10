@@ -1,0 +1,9 @@
+.pic {
+	width: 350px;
+	height: 300px;
+	transform: translateX(18.75rem /* 300/16 */);
+	-webkit-transform: translateX(18.75rem /* 300/16 */);
+	-moz-transform: translateX(18.75rem /* 300/16 */);
+	-ms-transform: translateX(18.75rem /* 300/16 */);
+	-o-transform: translateX(18.75rem /* 300/16 */);
+}
