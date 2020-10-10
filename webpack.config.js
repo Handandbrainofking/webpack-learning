@@ -37,7 +37,25 @@ module.exports = {
 						options: {
 							modules: true
 						}
-					}
+					},
+					'postcss-loader'
+				]
+			},
+
+			//使用less预处理器
+			{
+				test: /\.less$/,
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							// 开启模块化
+							modules: true
+						}
+					},
+					'postcss-loader',
+					'less-loader'
 				]
 			}
 		]

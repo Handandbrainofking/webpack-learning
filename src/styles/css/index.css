@@ -1,0 +1,11 @@
+.pic {
+	width: 350px;
+	height: 300px;
+	display: flex;
+	border-radius: 0.625rem /* 10/16 */;
+	transform: translateX(18.75rem /* 300/16 */);
+}
+
+.container {
+	display: flex;
+}
