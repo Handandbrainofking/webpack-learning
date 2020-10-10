@@ -18,12 +18,19 @@ module.exports = {
 					{
 						loader: 'url-loader',
 						options: {
+							// 当图片大于801k时，交给file-loader处理，否则url-loader会把图片src转成base64编码
 							limit: 801920,
+							// 打包后的文件名
 							name: '[name].[hash:8].[ext]',
+							// 打包路径
 							outputPath: 'images/'
 						}
 					}
 				]
+			},
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
 			}
 		]
 	},
@@ -36,7 +43,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			title: 'use htmlWebpackplugin',
-			filename: 'home.html',
+			filename: 'index.html',
 			template: './template/index.html',
 			favicon: 'static/icon/logo.ico',
 			meta: {
