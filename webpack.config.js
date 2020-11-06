@@ -8,7 +8,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].[hash:6].js'
+		filename: '[name].[chunkhash:6].js'
 	},
 	//开启devServe
 	devServer: {
@@ -37,13 +37,18 @@ module.exports = {
 				secure: false //默认情况下，不接受运行在 HTTPS 上，且使用了无效证书的后端服务器。如果你想要接受，修改配置如下
 			}
 		},
-		publicPath: '/cdn/', //此路径下的打包文件可在浏览器中访问。
+		// publicPath: '/cdn/', //此路径下的打包文件可在浏览器中访问。
 		// stats: 'errors-only',
 		useLocalIp: true, //使用本地ip启动项目
 		historyApiFallback: true //当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html
 	},
 	module: {
 		rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
 			{
 				test: /\.(gif|jpg|jpeg|png|svg)$/,
 				use: [
