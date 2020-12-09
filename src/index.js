@@ -3,6 +3,7 @@ console.log('hello,world1133');
 // import '@babel/polyfill'
 // import 'core-js/stable'
 // import 'regenerator-runtime/runtime'
+import counter from './js/counter'
 import Logo from '@/assets/logo.png';
 import '@/styles/css/reset.css';
 import indexStyle from '@/styles/css/index.css';
@@ -32,7 +33,7 @@ async function getInfo() {
 
 function getToken() {
   return new Promise((resolve,reject)=> {
-    console.log('获取token')
+    console.log('获取token000000')
     resolve('token_hello_123456')
   })
 }
@@ -40,3 +41,20 @@ function getToken() {
 getInfo().then(resp=>{
     console.log(`result:${resp}`)
 });
+
+console.log('home,zoiew')
+
+if(module.hot) {
+    module.hot.accept('./js/counter.js', function() {
+        console.log('number updated!');
+        document.body.removeChild(document.getElementById('number'))
+    })
+}
+counter()
+
+function getRemoteData() {
+    fetch('/Showtime/LocationMovies.api').then(res => {
+        console.log('res :', res);
+      });
+}
+getRemoteData()

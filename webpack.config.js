@@ -1,14 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 module.exports = {
 	mode: 'development',
 	entry: {
-		index: './src/index.js'
+		index: './src/index.js',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].[chunkhash:6].js'
+		filename: '[name].[hash:6].js',
 	},
 	//开启devServe
 	devServer: {
@@ -34,21 +35,50 @@ module.exports = {
 			'/api': {
 				target: 'http://localhost: 3000',
 				pathRewrite: { '^/api': '' },
-				secure: false //默认情况下，不接受运行在 HTTPS 上，且使用了无效证书的后端服务器。如果你想要接受，修改配置如下
-			}
+				secure: false, //默认情况下，不接受运行在 HTTPS 上，且使用了无效证书的后端服务器。如果你想要接受，修改配置如下
+			},
+			'/Showtime': {
+				target: 'https://api-m.mtime.cn',
+				changeOrigin: true,
+			},
+			//拦截器
+			// bypass: function (req, res, proxyOptions) {
+            //     console.warn(req)
+			// 	if (req.headers.accept.indexOf('html') !== -1) {
+			// 		console.log('Skipping proxy for browser request');
+			// 		return '/index.html';
+			// 	}
+			// }
 		},
-		// publicPath: '/cdn/', //此路径下的打包文件可在浏览器中访问。
+
+		// publicPath: '/cdn/', //默认值是‘/’，修改文件访问路径，此路径下的打包文件可在浏览器中访问。
 		// stats: 'errors-only',
 		useLocalIp: true, //使用本地ip启动项目
-		historyApiFallback: true //当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html
-	},
+		// historyApiFallback: true //当使用 HTML5 History API 时，任意的 404 响应都可能需要被替代为 index.html
+		// historyApiFallback:{
+		//     rewrites: [
+		//         {
+		//             from: /^\/$/,to: '/views/landing.html' //根路径/ => /views/landing.html
+		//         },
+		//         {
+		//             from: /^\/subpage/, to: '/views/subpage.html' // subpage => /views/subpage.html
+		//         },
+		//         {
+		//             from: /./,
+		//             to: '/views/404.html'
+		//         }
+		//     ]
+		// }
+    },
+    devtool: 'source-map',
 	module: {
 		rules: [
-            {
+			{
                 test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            },
+                //node_modules里面的代码基本经过了编译，所以忽略
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+			},
 			{
 				test: /\.(gif|jpg|jpeg|png|svg)$/,
 				use: [
@@ -60,10 +90,10 @@ module.exports = {
 							// 打包后的文件名
 							name: '[name].[hash:8].[ext]',
 							// 打包路径
-							outputPath: 'images/'
-						}
-					}
-				]
+							outputPath: 'images/',
+						},
+					},
+				],
 			},
 			{
 				test: /\.css$/,
@@ -72,11 +102,11 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							modules: false
-						}
+							modules: false,
+						},
 					},
-					'postcss-loader'
-				]
+					'postcss-loader',
+				],
 			},
 
 			//使用less预处理器
@@ -88,19 +118,19 @@ module.exports = {
 						loader: 'css-loader',
 						options: {
 							// 开启模块化
-							modules: true
-						}
+							modules: true,
+						},
 					},
 					'postcss-loader',
-					'less-loader'
-				]
-			}
-		]
+					'less-loader',
+				],
+			},
+		],
 	},
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, 'src')
-		}
+			'@': path.resolve(__dirname, 'src'),
+		},
 	},
 
 	plugins: [
@@ -112,9 +142,10 @@ module.exports = {
 			meta: {
 				viewport:
 					'width=device-width, initial-scale=1, shrink-to-fit=no user-scalable=no',
-				'apple-touch-fullscreen': 'yes'
-			}
+				'apple-touch-fullscreen': 'yes',
+			},
 		}),
-		new CleanWebpackPlugin()
-	]
+		new CleanWebpackPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+	],
 };

@@ -9,3 +9,7 @@
 .container {
 	display: flex;
 }
+
+.title {
+    color: yellow;
+}
